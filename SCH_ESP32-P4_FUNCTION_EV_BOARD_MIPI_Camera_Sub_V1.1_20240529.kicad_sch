@@ -42,7 +42,7 @@
 					)
 				)
 			)
-			(property "Footprint" "SC035HGS_Mod:IL-G-4P"
+			(property "Footprint" "SC035HGS_Mod:JAE_IL-G-4P-S3L2-SA_1x04_P2.50mm_Horizontal"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -10961,7 +10961,7 @@
 				(justify left top)
 			)
 		)
-		(property "Footprint" "SC035HGS_Mod:IL-G-4P"
+		(property "Footprint" "SC035HGS_Mod:JAE_IL-G-4P-S3L2-SA_1x04_P2.50mm_Horizontal"
 			(at 203.2 142.24 0)
 			(hide yes)
 			(show_name no)
@@ -10983,7 +10983,7 @@
 				)
 			)
 		)
-		(property "Description" "GS control header, JAE IL-G 2.5 mm right-angle, friction lock (club IL-G footprint convention), to the ESP32-P4 GPIO header (3.3 V): 1 TRIG_3V3, 2 LED_STROBE_3V3, 3 XSHUTDN_3V3, 4 GND. Mating socket IL-G-4S-S3C2-SA"
+		(property "Description" "GS control header, JAE IL-G 2.5 mm right-angle, friction lock (JAE SJ019575 pin numbering), to the ESP32-P4 GPIO header (3.3 V): 1 TRIG_3V3, 2 LED_STROBE_3V3, 3 XSHUTDN_3V3, 4 GND. Mating socket IL-G-4S-S3C2-SA"
 			(at 203.2 142.24 0)
 			(hide yes)
 			(show_name no)

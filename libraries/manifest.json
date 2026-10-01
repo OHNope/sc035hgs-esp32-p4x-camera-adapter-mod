@@ -33,22 +33,21 @@
     {
       "library_id": "SC035HGS_Mod:CONN_01X04",
       "source": "KiCad Connector_Generic:Conn_01x04",
-      "footprint": "SC035HGS_Mod:IL-G-4P"
+      "footprint": "SC035HGS_Mod:JAE_IL-G-4P-S3L2-SA_1x04_P2.50mm_Horizontal"
     }
   ],
   "footprints": [
     {
-      "library_id": "SC035HGS_Mod:IL-G-4P",
+      "library_id": "SC035HGS_Mod:JAE_IL-G-4P-S3L2-SA_1x04_P2.50mm_Horizontal",
       "mpn": "IL-G-4P-S3L2-SA",
-      "geometry_source": "Club-internal IL-G footprint convention (IL-G-2P/3P: 1.016 mm drill, 1.524 x 3.048 mm oval pads, pin 1 at +X numbered toward -X, outline y -2.35..8.5) extended to 4 positions with body length (n-1)*2.5+3. Courtyard, F.Fab outline and pin-1 marker added. Outline not verified against a JAE S3L2 drawing.",
+      "geometry_source": "JAE drawing SJ019575 ver.5 (IL-G-*P-S3L2-SA, 4-6 pos.): 2.5 mm pitch, PCB holes 1.1 mm, terminal No.1 at -X with the mating face toward +Y (component side), body 2.35 mm behind / 7.35 mm in front of the pin row, B = (n-1)*2.5+3, PCB edge 7-8.5 mm from the pin row. Land follows the club IL-G oval pad (1.524 x 3.048 mm).",
       "source_ids": [
-        "source.datasheet.a869c40f0410",
-        "source.private.de07baa4d50a33df90b60108d75a09d826cf617e49269cd200e72cfcaf154f8e"
+        "source.datasheet.763b2074362d"
       ],
       "mating_face": {
         "direction": "+y",
-        "basis": "Right-angle header (user confirmed S3L2, club convention); the club outline extends from the pin row toward +y (to 8.5 mm), taken as the housing/cable opening side.",
-        "provenance": "ai_inference"
+        "basis": "Right-angle header: the mating face and cable exit point away from the pin row toward +y, where the PCB edge sits 7-8.5 mm from the pin row (SJ019575 section A-A and PCB hole view).",
+        "provenance": "datasheet"
       }
     },
     {
