@@ -10,7 +10,7 @@
 
 ### 原理图改动（PCB 尚未更新）
 
-依据：SC035HGS 数据手册 V0.8、模组图纸（24P FPC，0.5 mm 间距，0.3 mm 厚，触点在模组背面）、ESP32-P4-Function-EV-Board v1.5.2 原理图。
+依据：SC035HGS 数据手册 V0.8、模组图纸（24P FPC，0.5 mm 间距，0.3 mm 厚，触点在模组背面）、ESP32-P4-Function-EV-Board v1.5.2 原理图。模组图纸上标的传感器是 SC035GS；SC035HGS 是它的升级版，完全兼容，FPC 引脚定义不变。
 
 **J2（模组 FPC）**：沿用原连接器 FPC-05F-24PH20（24P，0.5 mm，翻盖下接）和封装 `Camera_Sub:FFC_24P_0P5`。FPC 触点朝下插入时，模组第 n 脚落在焊盘 n 上，所以封装几何不变，只重做引脚定义。新符号 `SC035HGS_Mod:SC035HGS_FPC_24P` 的引脚名与模组图纸一致：
 
@@ -85,7 +85,7 @@ This repository modifies [ESP32-P4X_MIPI_Camera_Sub_V1.1_KiCAD](https://github.c
 
 ### Schematic changes (PCB not updated yet)
 
-Sources: SC035HGS datasheet V0.8, the module drawing (24-pin FPC, 0.5 mm pitch, 0.3 mm thick, contacts on the module's bottom side), ESP32-P4-Function-EV-Board v1.5.2 schematic.
+Sources: SC035HGS datasheet V0.8, the module drawing (24-pin FPC, 0.5 mm pitch, 0.3 mm thick, contacts on the module's bottom side), ESP32-P4-Function-EV-Board v1.5.2 schematic. The module drawing names the sensor SC035GS; SC035HGS is its fully compatible upgrade, so the FPC pinout is unchanged.
 
 - **J2 (module FPC)**: same connector (FPC-05F-24PH20, 24-pin 0.5 mm flip-lock, bottom contact) and footprint `Camera_Sub:FFC_24P_0P5`. With the FPC inserted contacts-down, module pin n lands on pad n, so only the pin assignment changes. The new symbol `SC035HGS_Mod:SC035HGS_FPC_24P` uses the module's pin names; see the table in the Chinese section.
 - **Power**: U3 ME6211C15M5G-N (LCSC C53100) adds DVDD 1.5 V. Power-up order follows the datasheet (DOVDD → DVDD → AVDD): U1 EN from 3V3, U3 EN from DOVDD_1V8 through R12/C18, U2 EN from DVDD_1V5 through R14/C15. Each RC adds about 1 ms, so a rail starts only after the previous one has settled.
