@@ -61,17 +61,17 @@ git merge upstream/main
 
 ### 发布
 
-推送 `v*` 标签会运行 [`.github/workflows/pcb-release.yml`](.github/workflows/pcb-release.yml)：
+[`.github/workflows/pcb-release.yml`](.github/workflows/pcb-release.yml) 调用共享流水线 [OHNope/kicad-release](https://github.com/OHNope/kicad-release)，标签规则、各次发布的内容和 Google Drive 配置都以那边的 README 为准。
 
 ```bash
 git tag v0.9.0 && git push origin v0.9.0
 ```
 
-KiBot（[`.kibot.yaml`](.kibot.yaml)）先跑 ERC/DRC，有错误则发布失败；然后生成 `output/`：Gerber、钻孔、给板厂的 zip、BOM、贴片坐标、交互式 BOM、原理图/PCB PDF、STEP 模型，以及与上一个标签的原理图/PCB 差异图。打包后附在 GitHub Release 和 workflow run 上；配置了 Google Drive 时同时上传。
+```bash
+git tag v0.9.0-fab v0.9.0 && git push origin v0.9.0-fab
+```
 
-不打标签测试：**Actions → PCB release → Run workflow**，这种运行不创建 GitHub Release。
-
-Google Drive 上传（可选）在 Settings → Secrets and variables → Actions 中配置：secret `GDRIVE_SA_JSON`（服务账号 JSON），variable `GDRIVE_TEAM_DRIVE_ID`（共享盘 ID，未设置则跳过上传），variable `GDRIVE_FOLDER_ID`（目标文件夹，空为共享盘根目录）。
+`v0.9.0` 发布原理图/PCB 文档，并把已提交的整个工程目录传到 Drive；`v0.9.0-fab` 才发布 Gerber，且必须与 `v0.9.0` 指向同一个 commit。Google Drive 需要在 Settings → Secrets and variables → Actions 中设置 secret `GDRIVE_TOKEN` 和 variable `GDRIVE_FOLDER_ID`。
 
 ### kicad-auto
 
@@ -119,17 +119,17 @@ Keep the project file names `SCH_ESP32-P4_FUNCTION_EV_BOARD_MIPI_Camera_Sub_V1.1
 
 ### Release
 
-Push a `v*` tag to run [`.github/workflows/pcb-release.yml`](.github/workflows/pcb-release.yml):
+[`.github/workflows/pcb-release.yml`](.github/workflows/pcb-release.yml) calls the shared pipeline in [OHNope/kicad-release](https://github.com/OHNope/kicad-release), which documents the tags, what each release contains and the Google Drive setup.
 
 ```bash
 git tag v0.9.0 && git push origin v0.9.0
 ```
 
-KiBot ([`.kibot.yaml`](.kibot.yaml)) runs ERC/DRC and fails the release on errors. It then writes `output/`, which holds the Gerbers and drill files plus a fab zip, BOM, pick-and-place, interactive BOM, schematic/PCB PDFs, a STEP model and schematic/PCB diffs against the previous tag. The zipped `output/` is attached to the GitHub Release and the workflow run, and is uploaded to Google Drive when configured.
+```bash
+git tag v0.9.0-fab v0.9.0 && git push origin v0.9.0-fab
+```
 
-To test without tagging, use **Actions → PCB release → Run workflow**. That run skips the GitHub Release.
-
-Optional Google Drive upload (Settings → Secrets and variables → Actions): secret `GDRIVE_SA_JSON` (service-account JSON key), variable `GDRIVE_TEAM_DRIVE_ID` (shared drive ID; upload is skipped if unset), variable `GDRIVE_FOLDER_ID` (target folder; empty = shared drive root).
+`v0.9.0` publishes the schematic/PCB documents and uploads the committed project tree to Drive. `v0.9.0-fab` publishes the Gerbers and must point at the same commit as `v0.9.0`. For Google Drive, set the secret `GDRIVE_TOKEN` and the variable `GDRIVE_FOLDER_ID` in Settings → Secrets and variables → Actions.
 
 ### kicad-auto
 
