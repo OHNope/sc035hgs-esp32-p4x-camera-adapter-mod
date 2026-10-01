@@ -1,7 +1,7 @@
 # KiCad local history snapshots
 .history/
 
-# KiCad backups, caches and lock files
+# KiCad backups, autosaves, locks and caches
 *-backups/
 fp-info-cache
 _autosave-*
@@ -13,8 +13,14 @@ _autosave-*
 # Per-user editor state (view settings, layer visibility)
 *.kicad_prl
 
-# Tool output
+# KiBot / release outputs (CI regenerates them)
+output/
+/*.zip
+
+# kicad-auto machine-local state (never committed)
 .kicad-auto/
 
-# macOS
+# OS / editor
 .DS_Store
+.vscode/
+.idea/
