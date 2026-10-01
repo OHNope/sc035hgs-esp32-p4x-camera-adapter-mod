@@ -1,5 +1,7 @@
 # ESP32-P4-Function-EV-Board MIPI Camera Sub V1.1 — KiCad
 
+> **SC035HGS mod.** 本仓库是基于本工程的 SC035HGS 改版；改版说明、上游同步和发布流程见 [MOD.md](MOD.md)。This repository is an SC035HGS modification of the project below; see [MOD.md](MOD.md) for the mod, upstream sync and release workflow.
+
 [中文](#中文) | [English](#english)
 
 ---

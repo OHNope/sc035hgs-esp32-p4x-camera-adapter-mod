@@ -1,0 +1,83 @@
+# Release pipeline: KiBot ERC/DRC + fabrication outputs, then publish the zip.
+# Setup (Settings -> Secrets and variables -> Actions):
+#   secret   GDRIVE_SA_JSON        service-account JSON key (optional, enables Drive upload)
+#   variable GDRIVE_TEAM_DRIVE_ID  shared drive ID (Drive upload runs only when this is set)
+#   variable GDRIVE_FOLDER_ID      target folder ID (empty = shared drive root)
+
+name: PCB release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  OUT_DIR: output
+  PROJECT: SCH_ESP32-P4_FUNCTION_EV_BOARD_MIPI_Camera_Sub_V1.1_20240529
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # diff outputs need history and tags
+
+      # Diff base: previous v* tag, or the root commit on the first release.
+      - name: Resolve diff base
+        id: base
+        run: |
+          REF=$(git describe --tags --abbrev=0 --match 'v*' HEAD^ 2>/dev/null \
+                || git rev-list --max-parents=0 HEAD | tail -n1)
+          echo "ref=$REF" >> "$GITHUB_OUTPUT"
+          # KiBot runs as root in a container; let its git read the runner-owned checkout.
+          mkdir -p "$RUNNER_TEMP/_github_home"
+          git config --file "$RUNNER_TEMP/_github_home/.gitconfig" --add safe.directory '*'
+
+      - name: Run KiBot
+        uses: INTI-CMNB/KiBot@v2_k10_1_9_0
+        with:
+          config: .kibot.yaml
+          schema: ${{ env.PROJECT }}.kicad_sch
+          board: ${{ env.PROJECT }}.kicad_pcb
+          dir: ${{ env.OUT_DIR }}
+          additional_args: -E DIFF_REF=${{ steps.base.outputs.ref }}
+
+      - name: Package outputs
+        id: pkg
+        run: |
+          VERSION="${GITHUB_REF_NAME//\//-}"
+          ZIP="${{ github.event.repository.name }}_${VERSION}.zip"
+          zip -qr "$ZIP" "$OUT_DIR"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "zip=$ZIP" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.pkg.outputs.zip }}
+          path: ${{ steps.pkg.outputs.zip }}
+
+      - name: Upload to Google Shared Drive
+        if: vars.GDRIVE_TEAM_DRIVE_ID != ''
+        env:
+          RCLONE_CONFIG_GDRIVE_TYPE: drive
+          RCLONE_CONFIG_GDRIVE_SCOPE: drive
+          RCLONE_CONFIG_GDRIVE_SERVICE_ACCOUNT_CREDENTIALS: ${{ secrets.GDRIVE_SA_JSON }}
+          RCLONE_CONFIG_GDRIVE_TEAM_DRIVE: ${{ vars.GDRIVE_TEAM_DRIVE_ID }}
+          RCLONE_CONFIG_GDRIVE_ROOT_FOLDER_ID: ${{ vars.GDRIVE_FOLDER_ID }}
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash
+          DEST="gdrive:${{ github.event.repository.name }}/${{ steps.pkg.outputs.version }}"
+          rclone copy "${{ steps.pkg.outputs.zip }}" "$DEST"  # zip for the fab house
+          rclone copy "$OUT_DIR" "$DEST/files"                 # unpacked for browsing
+          echo "Uploaded to $DEST"
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.pkg.outputs.zip }}
+          generate_release_notes: true
