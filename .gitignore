@@ -13,6 +13,12 @@ _autosave-*
 # Per-user editor state (view settings, layer visibility)
 *.kicad_prl
 
+# ERC/DRC reports: local check results, CI reruns both
+*-erc.rpt
+*-drc.rpt
+*-erc.json
+*-drc.json
+
 # KiBot / release outputs (CI regenerates them)
 output/
 /*.zip
