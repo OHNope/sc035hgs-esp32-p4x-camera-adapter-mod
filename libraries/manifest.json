@@ -1,0 +1,78 @@
+{
+  "schema_version": "project_library_manifest.v1",
+  "symbols": [
+    {
+      "library_id": "SC035HGS_Mod:SC035HGS_FPC_24P",
+      "source": "SC035HGS module drawing (24-pin FPC, 0.5 mm pitch); pin names follow the module pin table",
+      "footprint": "Camera_Sub:FFC_24P_0P5"
+    },
+    {
+      "library_id": "SC035HGS_Mod:ME6211C15M5G-N",
+      "source": "Flattened copy of orcad_import:LDO_SOT23-5_3 (same pinout as U1/U2 ME6211)",
+      "pins": {
+        "1": "VIN",
+        "2": "GND",
+        "3": "EN",
+        "4": "NR/FB",
+        "5": "OUT"
+      },
+      "footprint": "Camera_Sub:SOT23-5"
+    },
+    {
+      "library_id": "SC035HGS_Mod:SN74LVC1G07DBVR",
+      "source": "KiCad 74xGxx:74LVC1G07; TI SN74LVC1G07 DBV pinout",
+      "pins": {
+        "1": "NC",
+        "2": "A",
+        "3": "GND",
+        "4": "Y",
+        "5": "VCC"
+      },
+      "footprint": "Camera_Sub:SOT23-5"
+    },
+    {
+      "library_id": "SC035HGS_Mod:CONN_01X04",
+      "source": "KiCad Connector_Generic:Conn_01x04",
+      "footprint": "SC035HGS_Mod:IL-G-4P"
+    }
+  ],
+  "footprints": [
+    {
+      "library_id": "SC035HGS_Mod:IL-G-4P",
+      "mpn": "IL-G-4P-S3L2-SA",
+      "geometry_source": "Club-internal IL-G footprint convention (IL-G-2P/3P: 1.016 mm drill, 1.524 x 3.048 mm oval pads, pin 1 at +X numbered toward -X, outline y -2.35..8.5) extended to 4 positions with body length (n-1)*2.5+3. Courtyard, F.Fab outline and pin-1 marker added. Outline not verified against a JAE S3L2 drawing.",
+      "source_ids": [
+        "source.datasheet.a869c40f0410",
+        "source.private.de07baa4d50a33df90b60108d75a09d826cf617e49269cd200e72cfcaf154f8e"
+      ],
+      "mating_face": {
+        "direction": "+y",
+        "basis": "Right-angle header (user confirmed S3L2, club convention); the club outline extends from the pin row toward +y (to 8.5 mm), taken as the housing/cable opening side.",
+        "provenance": "ai_inference"
+      }
+    },
+    {
+      "library_id": "Camera_Sub:FFC_15P_1_MIPI_R",
+      "mpn": "AFA07-S15FCA-00",
+      "geometry_source": "Espressif camera sub-board Allegro footprint (imported): 15 contacts at local y=-0.9, hold-down lands 16/17 at y~+1.25, body to y=+3",
+      "mating_face": {
+        "direction": "+y",
+        "basis": "contact tails at local -y; hold-down tabs, housing and cable opening toward +y. The Espressif reference PCB puts this side at the board edge.",
+        "provenance": "ai_inference"
+      }
+    },
+    {
+      "library_id": "Camera_Sub:FFC_24P_0P5",
+      "mpn": "FPC-05F-24PH20",
+      "geometry_source": "Espressif camera sub-board Allegro footprint (imported): 24 contacts at local y=-0.625, mounting pads 25/26 at y=+1.95, actuator silk line at y=+3.2",
+      "mating_face": {
+        "direction": "+y",
+        "basis": "XUNPU FPC 0.5PH H2.0 drawing (top view): contact tails on one side, housing 5.12 mm deep with the FPC slot and flip lid on the opposite side, i.e. +y from the tail row (pads at y=-0.625, mounting pads at y=+1.95).",
+        "provenance": "datasheet"
+      },
+      "source_ids": [
+        "source.datasheet.6a9542752ceb"
+      ]
+    }
+  ]
+}
