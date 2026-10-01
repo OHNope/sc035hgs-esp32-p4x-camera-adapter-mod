@@ -1,0 +1,310 @@
+{
+  "format": "pcb-fabrication-profile",
+  "format_version": 1,
+  "schema_id": "urn:codex-skill:kicad:pcb-fabrication-profile:v1",
+  "profile_date": "2026-10-01",
+  "project": {
+    "name": "sc035hgs-esp32-p4x-camera-adapter-mod",
+    "project_file": "SCH_ESP32-P4_FUNCTION_EV_BOARD_MIPI_Camera_Sub_V1.1_20240529.kicad_pro",
+    "board_file": "SCH_ESP32-P4_FUNCTION_EV_BOARD_MIPI_Camera_Sub_V1.1_20240529.kicad_pcb",
+    "design_state": "Existing Espressif-derived 4-layer 1.6 mm board (32 x 24 mm) to be updated from the SC035HGS schematic; J2 moves to the top edge, J3 goes on a board edge, and the outline may grow (user decision 2026-10-01).",
+    "derived_from": "sc035hgs-esp32-p4x-camera-adapter/pcb-fabrication-profile.json (2026-09-25), same JLCPCB stackup choice"
+  },
+  "manufacturer": "JLCPCB",
+  "order_form": {
+    "service": "rigid_fr4",
+    "board_type": "prototype",
+    "dimensions_mm": null,
+    "quantity_pcs": null,
+    "different_designs": 1,
+    "delivery_format": "undecided",
+    "layer_count": 4,
+    "material": "FR-4, JLCPCB standard laminate stackup",
+    "tg_grade": null,
+    "finished_thickness_mm": 1.6,
+    "thickness_tolerance": "JLCPCB standard tolerance (currently published as +/-10% for thickness >=1.0 mm); confirm at quote",
+    "outer_copper_oz": 1,
+    "inner_copper_oz": 0.5,
+    "stackup_code": "JLC04161H-7628",
+    "soldermask": {
+      "front": "green",
+      "back": "green"
+    },
+    "silkscreen": {
+      "front": "white",
+      "back": "white"
+    },
+    "surface_finish": "ENIG",
+    "impedance_control": {
+      "enabled": true,
+      "test_option": "precision",
+      "status": "MIPI requires 100 ohm differential +/-10%; use the selected stackup in JLCPCB's calculator and confirm precision testing availability. Public guidance says standard impedance testing is +/-20%, which does not meet this target."
+    },
+    "via_covering": "tented",
+    "panelization": {
+      "mode": "undecided",
+      "notes": "Decide after Edge.Cuts dimensions are finalized. JLCPCB recommends considering panelization for boards <=50 x 50 mm; single-board ordering remains a valid prototype choice."
+    },
+    "special_processes": {
+      "castellated_holes": false,
+      "gold_fingers": false,
+      "plated_edges": false,
+      "blind_or_buried_vias": false,
+      "backdrilling": false,
+      "via_filling_or_capping": false
+    },
+    "assembly": "not_in_scope",
+    "order_number_marking": "undecided",
+    "remarks": [
+      "Use laminate code JLC04161H-7628 and confirm it is still offered for 4-layer, 1.6 mm boards when quoting.",
+      "Do not use the present KiCad Default diff-pair width/gap as the MIPI impedance geometry; calculate and record width/gap from the exact manufacturer stackup before routing.",
+      "Use ENIG as the recommended flat finish for the 0.5 mm-pitch camera FPC connector; verify the selected finish in the live order form.",
+      "The 1.6 mm thickness is a standard nominal prototype choice; verify mechanical fit/tolerance against the mating adapter/header before fabrication."
+    ]
+  },
+  "stackup": {
+    "code": "JLC04161H-7628",
+    "nominal_thickness_mm": 1.6,
+    "layers": [
+      {
+        "name": "F.SilkS",
+        "kind": "silkscreen",
+        "thickness_mm": null,
+        "material": "white legend ink",
+        "role": "Top reference designators and marking"
+      },
+      {
+        "name": "F.Mask",
+        "kind": "soldermask",
+        "thickness_mm": 0.01,
+        "material": "green LPI soldermask",
+        "role": "Top solder mask; actual cured thickness is CAM-controlled"
+      },
+      {
+        "name": "F.Cu",
+        "kind": "copper",
+        "plane_role": "signal",
+        "thickness_mm": 0.035,
+        "copper_oz": 1,
+        "material": "finished copper",
+        "role": "Signal traces and components"
+      },
+      {
+        "name": "dielectric 1",
+        "kind": "prepreg",
+        "thickness_mm": 0.2104,
+        "material": "7628*1 FR-4 prepreg",
+        "epsilon_r": 4.4,
+        "loss_tangent": null,
+        "role": "Top-to-L2 dielectric; Dk per JLCPCB capability table"
+      },
+      {
+        "name": "In1.Cu",
+        "kind": "copper",
+        "plane_role": "ground_plane",
+        "thickness_mm": 0.0152,
+        "copper_oz": 0.5,
+        "material": "finished copper",
+        "role": "Continuous GND reference plane; no signal routing"
+      },
+      {
+        "name": "dielectric 2",
+        "kind": "core",
+        "thickness_mm": 1.065,
+        "material": "FR-4 core in JLC04161H-7628 build-up",
+        "epsilon_r": 4.5,
+        "loss_tangent": null,
+        "role": "L2-to-L3 core; Dk is a generic FR-4 value, use JLC calculator for impedance dimensions"
+      },
+      {
+        "name": "In2.Cu",
+        "kind": "copper",
+        "plane_role": "power_plane",
+        "thickness_mm": 0.0152,
+        "copper_oz": 0.5,
+        "material": "finished copper",
+        "role": "Power distribution plane; only use for signals if a continuous reference plane is preserved"
+      },
+      {
+        "name": "dielectric 3",
+        "kind": "prepreg",
+        "thickness_mm": 0.2104,
+        "material": "7628*1 FR-4 prepreg",
+        "epsilon_r": 4.4,
+        "loss_tangent": null,
+        "role": "L3-to-bottom dielectric; Dk per JLCPCB capability table"
+      },
+      {
+        "name": "B.Cu",
+        "kind": "copper",
+        "plane_role": "signal",
+        "thickness_mm": 0.035,
+        "copper_oz": 1,
+        "material": "finished copper",
+        "role": "Secondary signal layer"
+      },
+      {
+        "name": "B.Mask",
+        "kind": "soldermask",
+        "thickness_mm": 0.01,
+        "material": "green LPI soldermask",
+        "role": "Bottom solder mask; actual cured thickness is CAM-controlled"
+      },
+      {
+        "name": "B.SilkS",
+        "kind": "silkscreen",
+        "thickness_mm": null,
+        "material": "white legend ink",
+        "role": "Bottom reference designators and marking"
+      }
+    ],
+    "source_url": "https://jlcpcb.com/impedance"
+  },
+  "electrical_requirements": {
+    "controlled_impedance": true,
+    "pairs": [
+      {
+        "interface": "MIPI CSI-2",
+        "positive_net": "/CSI_DATA0P",
+        "negative_net": "/CSI_DATA0N",
+        "target_diff_ohm": 100,
+        "tolerance_percent": 10,
+        "width_mm": 0.2258,
+        "gap_mm": 0.2032,
+        "reference_plane": "Continuous In1.Cu GND plane where routed on F.Cu"
+      },
+      {
+        "interface": "MIPI CSI-2",
+        "positive_net": "/CSI_DATA1P",
+        "negative_net": "/CSI_DATA1N",
+        "target_diff_ohm": 100,
+        "tolerance_percent": 10,
+        "width_mm": 0.2258,
+        "gap_mm": 0.2032,
+        "reference_plane": "Continuous In1.Cu GND plane where routed on F.Cu"
+      },
+      {
+        "interface": "MIPI CSI-2",
+        "positive_net": "/CSI_CLKP",
+        "negative_net": "/CSI_CLKN",
+        "target_diff_ohm": 100,
+        "tolerance_percent": 10,
+        "width_mm": 0.2258,
+        "gap_mm": 0.2032,
+        "reference_plane": "Continuous In1.Cu GND plane where routed on F.Cu"
+      }
+    ],
+    "calculation_record": {
+      "status": "calculator_sourced",
+      "provider": "JLCPCB Impedance Calculator",
+      "calculated_on": "2026-09-27",
+      "stackup": "JLC04161H-7628 (Standard, finished thickness 1.59 mm +/-10%)",
+      "configuration": "4 layers; 1.6 mm selection; 1 oz outer copper; 0.5 oz inner copper; differential pair non-coplanar; F.Cu/L1 signal over In1.Cu/L2 reference; 100 ohm target; 8.00 mil pair gap",
+      "result": {
+        "trace_width_mil": 8.89,
+        "trace_width_mm": 0.2258,
+        "pair_gap_mil": 8.0,
+        "pair_gap_mm": 0.2032
+      },
+      "source_url": "https://jlcpcb.com/pcb-impedance-calculator/",
+      "recalculation_required_if": [
+        "selected stackup, thickness, copper weight, signal layer, reference layer, soldermask treatment, or pair gap changes",
+        "MIPI route switches to coplanar geometry or a different layer"
+      ]
+    },
+    "layer_guidance": [
+      "L1/F.Cu: signal traces and components.",
+      "L2/In1.Cu: continuous GND plane; keep signals and plane splits out from under MIPI traces.",
+      "L3/In2.Cu: power distribution; high-speed signal use only with a verified continuous reference plane.",
+      "L4/B.Cu: secondary signal routing.",
+      "Espressif's ESP32-P4 MIPI guidance also calls for pair-to-pair skew <=30 mil and intra-pair skew <=10 mil."
+    ]
+  },
+  "kicad_project_settings": {
+    "applied": [],
+    "drc_manufacturing_floor": {
+      "min_track_width_mm": 0.09,
+      "min_clearance_mm": 0.09,
+      "min_copper_edge_clearance_mm": 0.5,
+      "min_via_diameter_mm": 0.25,
+      "min_via_annular_width_mm": 0.15,
+      "min_hole_clearance_mm": 0.25,
+      "min_hole_to_hole_mm": 0.25,
+      "min_through_hole_diameter_mm": 0.3,
+      "min_text_height_mm": 1.0,
+      "min_text_thickness_mm": 0.15
+    },
+    "existing_default_netclass": {
+      "track_width_mm": 0.2,
+      "clearance_mm": 0.2,
+      "diff_pair_width_mm": 0.2,
+      "diff_pair_gap_mm": 0.25,
+      "via_diameter_mm": 0.6,
+      "via_drill_mm": 0.3,
+      "mipi_dimensions_verified": false
+    },
+    "status": "Not applied yet: run apply_pcb_fabrication_profile on the active board at PCB start (dry run first). The current board still carries the Espressif netclasses (DP_CSI_A_* 0.1778/0.1778 mm), which do not match this stackup."
+  },
+  "manufacturer_constraints": {
+    "min_trace_width_mm": 0.09,
+    "min_trace_spacing_mm": 0.09,
+    "min_finished_drill_mm": 0.15,
+    "preferred_finished_drill_mm": 0.2,
+    "min_via_diameter_mm": 0.25,
+    "min_nonplated_hole_mm": 0.5,
+    "min_plated_slot_width_mm": 0.35,
+    "min_nonplated_slot_width_mm": 1.0,
+    "min_pth_annular_ring_mm": 0.15,
+    "via_hole_to_hole_mm": 0.2,
+    "pad_hole_to_hole_mm": 0.45,
+    "regular_routed_dimension_tolerance_mm": 0.2,
+    "precision_routed_dimension_tolerance_mm": 0.1,
+    "thickness_tolerance_percent": 10
+  },
+  "completion": {
+    "ready_for_gerber_or_order": false,
+    "must_fill_before_quote": [
+      "Final board outline dimensions after placement (32 x 24 mm or larger)",
+      "Order quantity",
+      "Delivery format/panelization",
+      "Order number marking and TG grade if the live quote form requires explicit choices",
+      "Current live availability and price for the selected stackup and ENIG finish"
+    ],
+    "must_verify_before_fabrication": [
+      "Recalculate the MIPI geometry if the final routing differs from the recorded F.Cu over continuous In1.Cu GND configuration",
+      "Confirm JLCPCB precision impedance testing can meet the ESP32-P4 +/-10% target (standard free test is documented as +/-20%)",
+      "Confirm connector/header mechanical fit, board outline tolerance, and thickness tolerance",
+      "Re-run KiCad DRC after the user completes layout; this profile does not imply DRC/fabrication readiness"
+    ]
+  },
+  "sources": [
+    {
+      "claim": "ESP32-P4 minimum four-layer arrangement and power-layer guidance",
+      "url": "https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32p4/pcb-layout-design-esp32p4.html"
+    },
+    {
+      "claim": "ESP32-P4 MIPI differential impedance and pair matching targets",
+      "url": "https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32p4/pcb-layout-design-esp32p4.html"
+    },
+    {
+      "claim": "Espressif publishes a camera adapter board layout closely related to this adapter",
+      "url": "https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32p4/esp32-p4x-function-ev-board/user_guide.html"
+    },
+    {
+      "claim": "JLCPCB four-layer 1.6 mm stackup codes, laminate dimensions, impedance calculator guidance and precision-test option",
+      "url": "https://jlcpcb.com/impedance"
+    },
+    {
+      "claim": "JLCPCB manufacturing limits, copper weights, colors, finishes, vias, and trace/space capability",
+      "url": "https://jlcpcb.com/capabilities/Capab"
+    },
+    {
+      "claim": "JLCPCB finish comparison: ENIG has better pad planarity for fine-pitch parts than HASL, with a cost trade-off",
+      "url": "https://jlcpcb.com/help/article/jlcpcb-surface-finish"
+    },
+    {
+      "claim": "JLCPCB multilayer laminate thickness and copper-finished thickness conventions",
+      "url": "https://jlcpcb.com/help/article/multi-layer-pcb-standard-laminated-structures"
+    }
+  ]
+}

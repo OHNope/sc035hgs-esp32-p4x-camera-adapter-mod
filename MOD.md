@@ -29,7 +29,7 @@
 
 **控制信号**：传感器侧都是 1.8 V（输入上限 DOVDD+0.3 V），主板和 J3 都是 3.3 V。三路都用 SN74LVC1G07 开漏缓冲（VCC=1.8 V，输入/输出可耐 5.5 V）做电平转换：
 
-- XSHUTDN（U4）：输入 `/XSHUTDN_3V3` 来自 J1.5 和 J3.3，R24 上拉，默认使能。输出经 R10/C3 延时，XSHUTDN 在 DOVDD 上电或 J3.3 释放后约 12–14 ms 才达到高电平（手册只要求 AVDD 稳定后再拉高，T3 ≥ 0），SW1 仍可手动复位。原来 J1.5 直接接到 1.8 V 复位网络，主板 3.3 V 上拉和板上 1.8 V 上拉分压后约 2.55 V，超过 SC035HGS 的绝对最大值，所以改为缓冲。
+- XSHUTDN（U4）：输入 `/XSHUTDN_3V3` 来自 J1.5 和 J3.3，R24 上拉，默认使能。输出经 R10/C3 延时，XSHUTDN 在 DOVDD 上电或 J3.3 释放后约 12–14 ms 才达到高电平（手册只要求 AVDD 稳定后再拉高，T3 ≥ 0）。SW1 和 J3.3 拉低 XSHUTDN 是让传感器进入休眠，寄存器内容保留，并不是复位（手册 p.14）。原来 J1.5 直接接到 1.8 V 复位网络，主板 3.3 V 上拉和板上 1.8 V 上拉分压后约 2.55 V，超过 SC035HGS 的绝对最大值，所以改为缓冲。
 - TRIG（U5）：J3.1 → TRIG，R26 2.2 kΩ 上拉，R25 让 J3 悬空时保持低电平。外触发模式下上升沿开始曝光。
 - LED_STROBE（U6）：J2.1 → J3.2，R28 上拉到 3V3，R27 让传感器关断时输出保持低电平。
 
@@ -39,6 +39,7 @@
 
 **固件注意**：
 - 首次 I2C 访问：XSHUTDN 变高且 MCLK 已在运行后至少等 4 ms（手册 p.13 图 1-4 的 T4）。板上 XSHUTDN 由 R10/C3 延时，所以上电或释放 J3.3 后至少等约 20 ms 再访问传感器。
+- 需要恢复默认寄存器时写 `0x0103=0x01`（软复位），拉低 XSHUTDN 不会清除寄存器。
 - MCLK 为 24 MHz。写 `0x0100=0x01` 后至少等 7 ms，再写 `0x4418`/`0x4419`（SmartSens 配置说明）。
 - 外触发模式：`0x3222[1]=1`。STROBE 使能：`0x3361[7:6]=00`。
 - I2C 地址由模组内部的 SID0/SID1 决定（FPC 未引出），首次上电请扫描 0x30–0x33 确认。
@@ -90,13 +91,14 @@ Sources: SC035HGS datasheet V0.8, the module drawing (24-pin FPC, 0.5 mm pitch, 
 - **J2 (module FPC)**: same connector (FPC-05F-24PH20, 24-pin 0.5 mm flip-lock, bottom contact) and footprint `Camera_Sub:FFC_24P_0P5`. With the FPC inserted contacts-down, module pin n lands on pad n, so only the pin assignment changes. The new symbol `SC035HGS_Mod:SC035HGS_FPC_24P` uses the module's pin names; see the table in the Chinese section.
 - **Power**: U3 ME6211C15M5G-N (LCSC C53100) adds DVDD 1.5 V. Power-up order follows the datasheet (DOVDD → DVDD → AVDD): U1 EN from 3V3, U3 EN from DOVDD_1V8 through R12/C18, U2 EN from DVDD_1V5 through R14/C15. Each RC adds about 1 ms, so a rail starts only after the previous one has settled.
 - **Control signals**: the sensor side is 1.8 V (inputs limited to DOVDD + 0.3 V), and the main board and J3 are 3.3 V. Three SN74LVC1G07 open-drain buffers at VCC = 1.8 V (5.5 V-tolerant input and output) translate them:
-  - XSHUTDN (U4): input `/XSHUTDN_3V3` from J1.5 and J3.3, pulled up by R24 (enabled by default). R10/C3 on the output delay it: XSHUTDN reaches a valid high about 12–14 ms after DOVDD comes up or J3.3 is released (the datasheet only requires it after AVDD is stable, T3 ≥ 0). SW1 still resets manually. J1.5 used to sit directly on the 1.8 V reset net, where the main board's 3.3 V pull-up and the local 1.8 V pull-up divided to about 2.55 V, above the sensor's absolute maximum.
+  - XSHUTDN (U4): input `/XSHUTDN_3V3` from J1.5 and J3.3, pulled up by R24 (enabled by default). R10/C3 on the output delay it: XSHUTDN reaches a valid high about 12–14 ms after DOVDD comes up or J3.3 is released (the datasheet only requires it after AVDD is stable, T3 ≥ 0). Pulling XSHUTDN low with SW1 or J3.3 puts the sensor to sleep with its registers kept; it is not a reset (datasheet p.14). J1.5 used to sit directly on the 1.8 V reset net, where the main board's 3.3 V pull-up and the local 1.8 V pull-up divided to about 2.55 V, above the sensor's absolute maximum.
   - TRIG (U5): J3.1 → TRIG, 2.2 kΩ pull-up (R26). R25 holds it low when J3 is open. In external-trigger mode a rising edge starts exposure.
   - LED_STROBE (U6): J2.1 → J3.2, pulled up to 3V3 by R28. R27 holds it low while the sensor is off.
 - **J3**: JAE IL-G-4P-S3L2-SA (2.5 mm pitch, right-angle, friction lock); mating socket IL-G-4S-S3C2-SA. 1 TRIG_3V3, 2 LED_STROBE_3V3, 3 XSHUTDN_3V3, 4 GND, wired to the P4 board's GPIO header. The footprint `SC035HGS_Mod:JAE_IL-G-4P-S3L2-SA_1x04_P2.50mm_Horizontal` follows JAE drawing SJ019575: JAE terminal numbering (pin 1 on the left seen from the component side with the opening toward +Y), 1.1 mm holes, the club's oval pads; keep the board edge 7–8.5 mm from the pin row. Note that the club's original IL-G footprints number the pins in the opposite direction, so check club harnesses against the JAE numbering. CAM_IO0/CAM_IO1 on the EV board's CSI connector (J1.5/J1.4 here) reach no GPIO, and CAM_IO0 has only a pull-up. J1.4 stays unconnected.
 - **Net renames**: `RESET` → `XSHUTDN` (1.8 V) / `XSHUTDN_3V3` (3.3 V), `XVCLK` → `MCLK`. New parts live in the project library `libraries/SC035HGS_Mod.*` (symbols and footprints), with connector metadata such as cable direction in `libraries/manifest.json`. `orcad_import` and `Camera_Sub` stay identical to upstream.
 - **Firmware notes**:
   - First I2C access: wait at least 4 ms after XSHUTDN goes high with MCLK running (datasheet p.13, Fig. 1-4, T4). XSHUTDN is delayed by R10/C3, so wait about 20 ms after power-up or after releasing J3.3.
+  - To restore default registers, write `0x0103=0x01` (soft reset); pulling XSHUTDN low does not clear them.
   - MCLK is 24 MHz. Wait at least 7 ms after writing `0x0100=0x01` before writing `0x4418`/`0x4419` (SmartSens configuration note).
   - External trigger mode: `0x3222[1]=1`. Strobe enable: `0x3361[7:6]=00`.
   - The I2C address depends on SID0/SID1 inside the module (not on the FPC). Scan 0x30–0x33 on first power-up.
