@@ -8,7 +8,7 @@
 
 本仓库在 [ESP32-P4X_MIPI_Camera_Sub_V1.1_KiCAD](https://github.com/OHNope/ESP32-P4X_MIPI_Camera_Sub_V1.1_KiCAD)（Espressif 官方相机转接板的 KiCad 转换版）基础上，修改为 SC035HGS 相机模组用的转接板。基础工程的说明见 [README.md](README.md)。
 
-### 原理图改动（PCB 尚未更新）
+### 原理图改动
 
 依据：SC035HGS 数据手册 V0.8、模组图纸（24P FPC，0.5 mm 间距，0.3 mm 厚，触点在模组背面）、ESP32-P4-Function-EV-Board v1.5.2 原理图。模组图纸上标的传感器是 SC035GS；SC035HGS 是它的升级版，完全兼容，FPC 引脚定义不变。
 
@@ -35,6 +35,8 @@
 
 **J3**：JAE IL-G-4P-S3L2-SA（2.5 mm 间距，卧式，摩擦锁），线端配 IL-G-4S-S3C2-SA。1 TRIG_3V3、2 LED_STROBE_3V3、3 XSHUTDN_3V3、4 GND，接到 P4 开发板的 GPIO 排针。封装 `SC035HGS_Mod:JAE_IL-G-4P-S3L2-SA_1x04_P2.50mm_Horizontal` 按 JAE 图纸 SJ019575 画：1 脚编号与 JAE 一致（元件面看，开口朝 +Y 时 1 脚在左），孔径 1.1 mm，焊盘沿用社团的椭圆焊盘；板边应距针排 7–8.5 mm。注意：社团原有 IL-G 封装的 1 脚编号与 JAE 相反，用社团线束时要按 JAE 编号核对。EV 板 CSI 座的 CAM_IO0/CAM_IO1（对应 J1.5/J1.4）没有接到任何 GPIO，CAM_IO0 只有上拉，所以必须通过 J3 控制。J1.4 保持不接。
 
+**C12/C13/C14**：值标为 NC 的三颗电容在原理图和 PCB 上都设为 DNP（不贴）。
+
 **网络改名**：`RESET` → `XSHUTDN`（1.8 V）/ `XSHUTDN_3V3`（3.3 V），`XVCLK` → `MCLK`。新增器件放在项目库 `libraries/SC035HGS_Mod.*`（符号和封装），连接器出线方向等元数据在 `libraries/manifest.json`；`orcad_import` / `Camera_Sub` 与上游保持一致。
 
 **固件注意**：
@@ -43,6 +45,21 @@
 - MCLK 为 24 MHz。写 `0x0100=0x01` 后至少等 7 ms，再写 `0x4418`/`0x4419`（SmartSens 配置说明）。
 - 外触发模式：`0x3222[1]=1`。STROBE 使能：`0x3361[7:6]=00`。
 - I2C 地址由模组内部的 SID0/SID1 决定（FPC 未引出），首次上电请扫描 0x30–0x33 确认。
+
+### PCB
+
+PCB 在 KiCad 里按新原理图更新后全部重做：旧铜皮全部删除，重新摆放和走线。
+
+- **板框与叠层**：40 × 24 mm，R3 圆角。4 层，嘉立创 JLC04161H-7628 叠层，1.6 mm，沉金（ENIG）；加工参数在 [`pcb-fabrication-profile.json`](pcb-fabrication-profile.json)，Board Setup 的工艺下限也按它设置。
+- **布局**：J1（接 P4 开发板的 FPC）在下边，J2（模组 FPC）在上边，J3 在右边、开口朝板外，SW1 在右上角。
+- **层分配**：In1 整层 GND，In2 整层 DOVDD_1V8；顶层和底层走信号并铺 GND。3V3、DVDD_1V5、AVDD_2V8 走线，线宽按 SC035HGS 最大 120 mW 的电流算，对应网络类 `PWR_*`。
+- **MIPI CSI-2**：三对差分全部走顶层、不打孔，100 Ω（线宽 0.2258 mm，间距 0.2032 mm），以 In1 为参考面；对内长度差为 0，三对之间的长度差 0.35 mm。
+- **过孔**：全部 0.6/0.3 mm。
+- **丝印**：字高 1.0 mm、线宽 0.15 mm（嘉立创下限）；放不下的位号移到 Fab 层。底面丝印为板名和 "Same-Side FFC" 提示。
+- **清理**：删除了 Allegro 导入时留下的尺寸标注（MECH1/MECH2）、钻孔表和板外的空规则区。
+- **检查**：DRC 0 错误、0 未连接，与原理图一致；剩余 86 条警告都是 `Camera_Sub` 库封装的丝印超出其 courtyard，不影响加工。
+
+`sources/espressif-original/` 里是 Espressif 原板的 BOM、贴片坐标和 PCB 加工说明，对应的是旧版 32 mm 板，**不能用来给本板下单**。本板的 Gerber、BOM 和贴片文件由 `v1.0-fab` 发布生成。
 
 ### 仓库关系
 
@@ -84,7 +101,7 @@ git tag v1.0-fab v1.0 && git push origin v1.0-fab
 
 This repository modifies [ESP32-P4X_MIPI_Camera_Sub_V1.1_KiCAD](https://github.com/OHNope/ESP32-P4X_MIPI_Camera_Sub_V1.1_KiCAD), the KiCad conversion of Espressif's camera adapter board, into an adapter for the SC035HGS camera module. See [README.md](README.md) for the base project.
 
-### Schematic changes (PCB not updated yet)
+### Schematic changes
 
 Sources: SC035HGS datasheet V0.8, the module drawing (24-pin FPC, 0.5 mm pitch, 0.3 mm thick, contacts on the module's bottom side), ESP32-P4-Function-EV-Board v1.5.2 schematic. The module drawing names the sensor SC035GS; SC035HGS is its fully compatible upgrade, so the FPC pinout is unchanged.
 
@@ -95,6 +112,7 @@ Sources: SC035HGS datasheet V0.8, the module drawing (24-pin FPC, 0.5 mm pitch, 
   - TRIG (U5): J3.1 → TRIG, 2.2 kΩ pull-up (R26). R25 holds it low when J3 is open. In external-trigger mode a rising edge starts exposure.
   - LED_STROBE (U6): J2.1 → J3.2, pulled up to 3V3 by R28. R27 holds it low while the sensor is off.
 - **J3**: JAE IL-G-4P-S3L2-SA (2.5 mm pitch, right-angle, friction lock); mating socket IL-G-4S-S3C2-SA. 1 TRIG_3V3, 2 LED_STROBE_3V3, 3 XSHUTDN_3V3, 4 GND, wired to the P4 board's GPIO header. The footprint `SC035HGS_Mod:JAE_IL-G-4P-S3L2-SA_1x04_P2.50mm_Horizontal` follows JAE drawing SJ019575: JAE terminal numbering (pin 1 on the left seen from the component side with the opening toward +Y), 1.1 mm holes, the club's oval pads; keep the board edge 7–8.5 mm from the pin row. Note that the club's original IL-G footprints number the pins in the opposite direction, so check club harnesses against the JAE numbering. CAM_IO0/CAM_IO1 on the EV board's CSI connector (J1.5/J1.4 here) reach no GPIO, and CAM_IO0 has only a pull-up. J1.4 stays unconnected.
+- **C12/C13/C14**: the three capacitors valued NC are DNP (not fitted) in both schematic and PCB.
 - **Net renames**: `RESET` → `XSHUTDN` (1.8 V) / `XSHUTDN_3V3` (3.3 V), `XVCLK` → `MCLK`. New parts live in the project library `libraries/SC035HGS_Mod.*` (symbols and footprints), with connector metadata such as cable direction in `libraries/manifest.json`. `orcad_import` and `Camera_Sub` stay identical to upstream.
 - **Firmware notes**:
   - First I2C access: wait at least 4 ms after XSHUTDN goes high with MCLK running (datasheet p.13, Fig. 1-4, T4). XSHUTDN is delayed by R10/C3, so wait about 20 ms after power-up or after releasing J3.3.
@@ -102,6 +120,21 @@ Sources: SC035HGS datasheet V0.8, the module drawing (24-pin FPC, 0.5 mm pitch, 
   - MCLK is 24 MHz. Wait at least 7 ms after writing `0x0100=0x01` before writing `0x4418`/`0x4419` (SmartSens configuration note).
   - External trigger mode: `0x3222[1]=1`. Strobe enable: `0x3361[7:6]=00`.
   - The I2C address depends on SID0/SID1 inside the module (not on the FPC). Scan 0x30–0x33 on first power-up.
+
+### PCB
+
+The PCB was updated from the new schematic in KiCad and then redone: all old copper was removed, the parts re-placed and the board re-routed.
+
+- **Outline and stackup**: 40 × 24 mm with R3 corners. 4 layers on JLCPCB's JLC04161H-7628 stackup, 1.6 mm, ENIG. The fabrication parameters are in [`pcb-fabrication-profile.json`](pcb-fabrication-profile.json), which also sets the Board Setup manufacturing minimums.
+- **Placement**: J1 (FPC to the P4 board) on the bottom edge, J2 (module FPC) on the top edge, J3 on the right edge opening outward, SW1 in the top-right corner.
+- **Layers**: In1 is a solid GND plane and In2 a solid DOVDD_1V8 plane; top and bottom carry signals and GND pours. 3V3, DVDD_1V5 and AVDD_2V8 are tracks sized for the SC035HGS's 120 mW maximum, in the `PWR_*` netclasses.
+- **MIPI CSI-2**: all three pairs on the top layer with no vias, 100 Ω (0.2258 mm width, 0.2032 mm gap) over the In1 reference; zero skew within each pair and 0.35 mm length difference between pairs.
+- **Vias**: all 0.6/0.3 mm.
+- **Silkscreen**: 1.0 mm text height and 0.15 mm stroke (JLCPCB's minimum); references that do not fit are on the Fab layer. The bottom silkscreen carries the board name and a "Same-Side FFC" note.
+- **Cleanup**: the Allegro import's dimension annotations (MECH1/MECH2), drill chart and off-board empty rule areas are removed.
+- **Checks**: DRC 0 errors and 0 unconnected, schematic and PCB in sync. The 86 remaining warnings are `Camera_Sub` library footprints whose silkscreen extends past their courtyards; they do not affect fabrication.
+
+`sources/espressif-original/` holds Espressif's BOM, placement file and PCB fabrication notes for the original 32 mm board. **Do not order this board from them.** This board's Gerbers, BOM and placement file come from the `v1.0-fab` release.
 
 ### Remotes
 
