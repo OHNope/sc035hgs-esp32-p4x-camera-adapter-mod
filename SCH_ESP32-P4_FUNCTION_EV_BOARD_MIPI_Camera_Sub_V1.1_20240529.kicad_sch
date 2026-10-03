@@ -11046,7 +11046,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "12cee3fa-9adc-54bb-968f-92a72861bbb7")
 		(property "Reference" "C13"
 			(at 307.34 147.9676 0)
@@ -15378,7 +15378,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "8c83394a-cc2d-5fad-a31a-6d01c62d3666")
 		(property "Reference" "C14"
 			(at 266.7 26.0476 0)
@@ -18718,7 +18718,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "cd459318-b153-57e0-8e89-cb857834b1e4")
 		(property "Reference" "C12"
 			(at 350.52 142.8876 0)
