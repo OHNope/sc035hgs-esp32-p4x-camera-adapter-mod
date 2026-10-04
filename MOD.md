@@ -53,13 +53,14 @@ PCB 在 KiCad 里按新原理图更新后全部重做：旧铜皮全部删除，
 - **板框与叠层**：40 × 24 mm，R3 圆角。4 层，嘉立创 JLC04161H-7628 叠层，1.6 mm，沉金（ENIG）；加工参数在 [`pcb-fabrication-profile.json`](pcb-fabrication-profile.json)，Board Setup 的工艺下限也按它设置。
 - **布局**：J1（接 P4 开发板的 FPC）在下边，J2（模组 FPC）在上边，J3 在右边、开口朝板外，SW1 在右上角。
 - **层分配**：In1 整层 GND，In2 整层 DOVDD_1V8；顶层和底层走信号并铺 GND。3V3、DVDD_1V5、AVDD_2V8 走线，线宽按 SC035HGS 最大 120 mW 的电流算，对应网络类 `PWR_*`。
-- **MIPI CSI-2**：三对差分全部走顶层、不打孔，100 Ω（线宽 0.2258 mm，间距 0.2032 mm），以 In1 为参考面；对内长度差为 0，三对之间的长度差 0.35 mm。
+- **MIPI CSI-2**：三对差分全部走顶层、不打孔，100 Ω（线宽 0.2258 mm，间距 0.2032 mm），以 In1 为参考面；每次转弯只用一个 45° 折角，对内长度差为 0，三对之间的长度差 0.21 mm。
 - **过孔**：全部 0.6/0.3 mm。
 - **丝印**：字高 1.0 mm、线宽 0.15 mm（嘉立创下限）；放不下的位号移到 Fab 层。底面丝印为板名和 "Same-Side FFC" 提示。
-- **清理**：删除了 Allegro 导入时留下的尺寸标注（MECH1/MECH2）、钻孔表和板外的空规则区。
-- **检查**：DRC 0 错误、0 未连接，与原理图一致；剩余 86 条警告都是 `Camera_Sub` 库封装的丝印超出其 courtyard，不影响加工。
+- **清理**：删除了 Allegro 导入时留下的尺寸标注（MECH1/MECH2）、钻孔表、板外的空规则区和右边缘的旧 Route Keepin 规则区；底面丝印上 Espressif 的 logo 和 WEEE/ESD/无铅/无卤标志也已删除。
+- **位置**：板子放在 A4 图框正中（板框 x 128.5–168.5 mm，y 93–117 mm），出图时板子在图框内。
+- **检查**：ERC 0；DRC 0 错误、0 未连接，与原理图一致。剩余 87 条警告都是丝印：57 条是相邻 `Camera_Sub` 库封装的丝印互相碰到（封装丝印超出 courtyard），30 条是丝印压在焊盘上（主要是 J1/SW1，生产时由阻焊裁掉），不影响加工。
 
-`sources/espressif-original/` 里是 Espressif 原板的 BOM、贴片坐标和 PCB 加工说明，对应的是旧版 32 mm 板，**不能用来给本板下单**。本板的 Gerber、BOM 和贴片文件由 `-fab` 发布生成。
+`sources/espressif-original/` 里是 Espressif 原板的 BOM、贴片坐标和 PCB 加工说明，对应的是旧版 32 mm 板，**不能用来给本板下单**。本板的 Gerber、BOM 和贴片文件由 `-fab` 发布生成，下单用最新的 `v0.9.1-fab`。
 
 ### 上电调试
 
@@ -98,15 +99,20 @@ git merge upstream/main
 
 [`.github/workflows/pcb-release.yml`](.github/workflows/pcb-release.yml) 调用共享流水线 [OHNope/kicad-release](https://github.com/OHNope/kicad-release)，标签规则、各次发布的内容和 Google Drive 配置都以那边的 README 为准。
 
+| 标签 | 内容 |
+|------|------|
+| `v0.9.0` | 只有 SC035HGS 原理图，PCB 还是旧板 |
+| `v0.9.1` / `v0.9.1-fab` | 第一版 PCB，用于打样。贴片坐标和 iBOM 不含不贴的 C12–C14 |
+
 ```bash
-git tag v0.9.0 && git push origin v0.9.0
+git tag -a v0.9.1 -m "v0.9.1: ..." && git push origin v0.9.1
 ```
 
 ```bash
-git tag v0.9.0-fab v0.9.0 && git push origin v0.9.0-fab
+git tag -a v0.9.1-fab -m "v0.9.1-fab: ..." "v0.9.1^{}" && git push origin v0.9.1-fab
 ```
 
-`v0.9.0` 发布原理图/PCB 文档，并把已提交的整个工程目录传到 Drive；`v0.9.0-fab` 才发布 Gerber，且必须与 `v0.9.0` 指向同一个 commit。Google Drive 需要在 Settings → Secrets and variables → Actions 中设置 secret `GDRIVE_TOKEN` 和 variable `GDRIVE_FOLDER_ID`。
+`v0.9.1` 发布原理图/PCB 文档，并把已提交的整个工程目录传到 Drive；`v0.9.1-fab` 才发布 Gerber，且必须与 `v0.9.1` 指向同一个 commit，所以先推设计标签、再推 `-fab`。C12–C14 在 F.Paste 上仍有钢网开口，下单 SMT 时以 BOM 和贴片坐标为准。Google Drive 需要在 Settings → Secrets and variables → Actions 中设置 secret `GDRIVE_TOKEN` 和 variable `GDRIVE_FOLDER_ID`。
 
 ### kicad-auto
 
@@ -145,13 +151,14 @@ The PCB was updated from the new schematic in KiCad and then redone: all old cop
 - **Outline and stackup**: 40 × 24 mm with R3 corners. 4 layers on JLCPCB's JLC04161H-7628 stackup, 1.6 mm, ENIG. The fabrication parameters are in [`pcb-fabrication-profile.json`](pcb-fabrication-profile.json), which also sets the Board Setup manufacturing minimums.
 - **Placement**: J1 (FPC to the P4 board) on the bottom edge, J2 (module FPC) on the top edge, J3 on the right edge opening outward, SW1 in the top-right corner.
 - **Layers**: In1 is a solid GND plane and In2 a solid DOVDD_1V8 plane; top and bottom carry signals and GND pours. 3V3, DVDD_1V5 and AVDD_2V8 are tracks sized for the SC035HGS's 120 mW maximum, in the `PWR_*` netclasses.
-- **MIPI CSI-2**: all three pairs on the top layer with no vias, 100 Ω (0.2258 mm width, 0.2032 mm gap) over the In1 reference; zero skew within each pair and 0.35 mm length difference between pairs.
+- **MIPI CSI-2**: all three pairs on the top layer with no vias, 100 Ω (0.2258 mm width, 0.2032 mm gap) over the In1 reference; a single 45° bend at each turn, zero skew within each pair and 0.21 mm length difference between pairs.
 - **Vias**: all 0.6/0.3 mm.
 - **Silkscreen**: 1.0 mm text height and 0.15 mm stroke (JLCPCB's minimum); references that do not fit are on the Fab layer. The bottom silkscreen carries the board name and a "Same-Side FFC" note.
-- **Cleanup**: the Allegro import's dimension annotations (MECH1/MECH2), drill chart and off-board empty rule areas are removed.
-- **Checks**: DRC 0 errors and 0 unconnected, schematic and PCB in sync. The 86 remaining warnings are `Camera_Sub` library footprints whose silkscreen extends past their courtyards; they do not affect fabrication.
+- **Cleanup**: the Allegro import's dimension annotations (MECH1/MECH2), drill chart, off-board empty rule areas and the stale Route Keepin area on the right edge are removed, as are Espressif's logo and the WEEE/ESD/Pb-free/halogen-free marks on the bottom silkscreen.
+- **Position**: the board sits in the middle of the A4 drawing sheet (outline x 128.5–168.5 mm, y 93–117 mm), so plots show it inside the frame.
+- **Checks**: ERC 0; DRC 0 errors and 0 unconnected, schematic and PCB in sync. The 87 remaining warnings are all silkscreen: 57 where neighbouring `Camera_Sub` library footprints' silkscreen touches (it extends past their courtyards) and 30 where silkscreen crosses pads (mostly J1/SW1, clipped by the solder mask at fabrication). None affects fabrication.
 
-`sources/espressif-original/` holds Espressif's BOM, placement file and PCB fabrication notes for the original 32 mm board. **Do not order this board from them.** This board's Gerbers, BOM and placement file come from the `-fab` release.
+`sources/espressif-original/` holds Espressif's BOM, placement file and PCB fabrication notes for the original 32 mm board. **Do not order this board from them.** This board's Gerbers, BOM and placement file come from the `-fab` releases; order from the latest, `v0.9.1-fab`.
 
 ### Bring-up
 
@@ -190,15 +197,20 @@ Keep the project file names `SCH_ESP32-P4_FUNCTION_EV_BOARD_MIPI_Camera_Sub_V1.1
 
 [`.github/workflows/pcb-release.yml`](.github/workflows/pcb-release.yml) calls the shared pipeline in [OHNope/kicad-release](https://github.com/OHNope/kicad-release), which documents the tags, what each release contains and the Google Drive setup.
 
+| Tag | Contents |
+|-----|----------|
+| `v0.9.0` | SC035HGS schematic only; the PCB is still the old board |
+| `v0.9.1` / `v0.9.1-fab` | First PCB, for the prototype order. The placement file and iBOM leave out the DNP parts C12–C14 |
+
 ```bash
-git tag v0.9.0 && git push origin v0.9.0
+git tag -a v0.9.1 -m "v0.9.1: ..." && git push origin v0.9.1
 ```
 
 ```bash
-git tag v0.9.0-fab v0.9.0 && git push origin v0.9.0-fab
+git tag -a v0.9.1-fab -m "v0.9.1-fab: ..." "v0.9.1^{}" && git push origin v0.9.1-fab
 ```
 
-`v0.9.0` publishes the schematic/PCB documents and uploads the committed project tree to Drive. `v0.9.0-fab` publishes the Gerbers and must point at the same commit as `v0.9.0`. For Google Drive, set the secret `GDRIVE_TOKEN` and the variable `GDRIVE_FOLDER_ID` in Settings → Secrets and variables → Actions.
+`v0.9.1` publishes the schematic/PCB documents and uploads the committed project tree to Drive. `v0.9.1-fab` publishes the Gerbers and must point at the same commit as `v0.9.1`, so push the design tag before the `-fab` tag. C12–C14 still have F.Paste apertures; for SMT assembly, the BOM and placement file decide what gets fitted. For Google Drive, set the secret `GDRIVE_TOKEN` and the variable `GDRIVE_FOLDER_ID` in Settings → Secrets and variables → Actions.
 
 ### kicad-auto
 
