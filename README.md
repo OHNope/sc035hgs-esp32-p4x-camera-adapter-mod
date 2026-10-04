@@ -102,7 +102,7 @@ git merge upstream/main
 | 标签 | 内容 |
 |------|------|
 | `v0.9.0` | 只有 SC035HGS 原理图，PCB 还是旧板 |
-| `v0.9.1` / `v0.9.1-fab` | 第一版 PCB，用于打样。贴片坐标和 iBOM 不含不贴的 C12–C14 |
+| `v0.9.1-fab` | 第一版 PCB 的加工文件（Gerber、钻孔、BOM、贴片坐标），用于打样；贴片坐标不含不贴的 C12–C14。没有单独的 `v0.9.1` 设计发布 |
 
 ```bash
 git tag -a v0.9.1 -m "v0.9.1: ..." && git push origin v0.9.1
@@ -204,7 +204,7 @@ Keep the project file names `SCH_ESP32-P4_FUNCTION_EV_BOARD_MIPI_Camera_Sub_V1.1
 | Tag | Contents |
 |-----|----------|
 | `v0.9.0` | SC035HGS schematic only; the PCB is still the old board |
-| `v0.9.1` / `v0.9.1-fab` | First PCB, for the prototype order. The placement file and iBOM leave out the DNP parts C12–C14 |
+| `v0.9.1-fab` | Fabrication files for the first PCB (Gerbers, drill, BOM, placement), for the prototype order; the placement file leaves out the DNP parts C12–C14. There is no separate `v0.9.1` design release |
 
 ```bash
 git tag -a v0.9.1 -m "v0.9.1: ..." && git push origin v0.9.1
