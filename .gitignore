@@ -5,3 +5,4 @@ fp-info-cache
 _autosave-*
 *.lck
 .kicad-auto-archive/
+.agent-work/

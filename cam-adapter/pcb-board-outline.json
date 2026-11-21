@@ -1,0 +1,11 @@
+{
+  "allow_rotation": false,
+  "decided_by": "user_confirmed_recommendation",
+  "height_mm": 24.6,
+  "mode": "fixed",
+  "note": "T shape (user, 2026-11-20; overhang enlarged from 28 x 16 to 32 x 20): 32 x 20 mm overhang beyond the Stamp-P4 J2 (RMII/DSI) edge over the main board interior, plus a 13 x 4.6 mm waist over the module covering J2 that stops before the ESP32-P4 QFN (module y 5.1 mm, 1.0 mm tall). Module frame (module x 100..122, y 100..128): polygon (95,80) (127,80) (127,100) (113.5,100) (113.5,104.6) (100.5,104.6) (100.5,100) (95,100). FPC socket on the overhang outer edge opening outward; two M2 holes at the overhang outer corners; components top side only except the J1 BTB header on B.Cu.",
+  "recorded_at": "2026-11-20T12:54:37+00:00",
+  "schema_version": "pcb_board_outline_intent.v1",
+  "tolerance_mm": 0.1,
+  "width_mm": 32.0
+}

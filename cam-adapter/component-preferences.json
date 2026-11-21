@@ -1,0 +1,174 @@
+{
+  "entries": [
+    {
+      "category": "connector",
+      "id": "pref.f83328b19ea16dde",
+      "level": "must",
+      "match": {
+        "interface": "stamp_p4_csi_btb"
+      },
+      "parts": [
+        {
+          "manufacturer": "Panasonic",
+          "mpn": "AXE616124D",
+          "vendor_parts": {
+            "lcsc": "C2982243"
+          }
+        }
+      ],
+      "source": "user_request",
+      "statement": "SC035HGS 转接小板：从 Stamp-P4 J2 接 MIPI/I2C/RST/MCLK/3.3V，到 24P 模组 FPC 插座。",
+      "tags": [
+        "board_to_board"
+      ]
+    },
+    {
+      "category": "connector",
+      "id": "pref.3112f523dc268178",
+      "level": "must",
+      "match": {
+        "interface": "sc035hgs_module_fpc_24p"
+      },
+      "parts": [
+        {
+          "manufacturer": "XUNPU",
+          "mpn": "FPC-05F-24PH20",
+          "vendor_parts": {
+            "lcsc": "C2856805"
+          }
+        }
+      ],
+      "source": "user_request",
+      "statement": "SC035HGS 转接小板：从 Stamp-P4 J2 接 MIPI/I2C/RST/MCLK/3.3V，到 24P 模组 FPC 插座。",
+      "tags": [
+        "fpc_zif"
+      ]
+    },
+    {
+      "category": "ldo",
+      "id": "pref.504c68ed62976df0",
+      "level": "must",
+      "match": {
+        "vout_v": 1.8
+      },
+      "parts": [
+        {
+          "manufacturer": "MICRONE",
+          "mpn": "ME6211C18M5G-N",
+          "vendor_parts": {
+            "lcsc": "C236671"
+          }
+        }
+      ],
+      "source": "user_request",
+      "statement": "电路照搬 sc035hgs 项目（只读参考 ~/Downloads/sc035hgs，origin/main 6aea7f5）：U1/U2/U3 三路 LDO 及 DOVDD→DVDD→AVDD 上电时序 RC、Q3/Q4 SSM3K329R I2C 电平转换、U4 SN74LVC1G07 XSHUTDN 缓冲与 R10/C3 延时"
+    },
+    {
+      "category": "ldo",
+      "id": "pref.60c2cfdcac1ea247",
+      "level": "must",
+      "match": {
+        "vout_v": 1.5
+      },
+      "parts": [
+        {
+          "manufacturer": "MICRONE",
+          "mpn": "ME6211C15M5G-N",
+          "vendor_parts": {
+            "lcsc": "C53100"
+          }
+        }
+      ],
+      "source": "user_request",
+      "statement": "电路照搬 sc035hgs 项目（只读参考 ~/Downloads/sc035hgs，origin/main 6aea7f5）：U1/U2/U3 三路 LDO 及 DOVDD→DVDD→AVDD 上电时序 RC、Q3/Q4 SSM3K329R I2C 电平转换、U4 SN74LVC1G07 XSHUTDN 缓冲与 R10/C3 延时"
+    },
+    {
+      "category": "ldo",
+      "id": "pref.9ccf3a2f9b977532",
+      "level": "must",
+      "match": {
+        "vout_v": 2.8
+      },
+      "parts": [
+        {
+          "manufacturer": "MICRONE",
+          "mpn": "ME6211C28M5G-N",
+          "vendor_parts": {
+            "lcsc": "C53099"
+          }
+        }
+      ],
+      "source": "user_request",
+      "statement": "电路照搬 sc035hgs 项目（只读参考 ~/Downloads/sc035hgs，origin/main 6aea7f5）：U1/U2/U3 三路 LDO 及 DOVDD→DVDD→AVDD 上电时序 RC、Q3/Q4 SSM3K329R I2C 电平转换、U4 SN74LVC1G07 XSHUTDN 缓冲与 R10/C3 延时"
+    },
+    {
+      "category": "other",
+      "id": "pref.df93827beea83ff2",
+      "level": "must",
+      "match": {
+        "role": "i2c_level_shift"
+      },
+      "parts": [
+        {
+          "manufacturer": "Toshiba",
+          "mpn": "SSM3K329R",
+          "vendor_parts": {
+            "lcsc": "C150127"
+          }
+        }
+      ],
+      "source": "user_request",
+      "statement": "电路照搬 sc035hgs 项目（只读参考 ~/Downloads/sc035hgs，origin/main 6aea7f5）：U1/U2/U3 三路 LDO 及 DOVDD→DVDD→AVDD 上电时序 RC、Q3/Q4 SSM3K329R I2C 电平转换、U4 SN74LVC1G07 XSHUTDN 缓冲与 R10/C3 延时",
+      "tags": [
+        "level_shifter",
+        "mosfet"
+      ]
+    },
+    {
+      "category": "other",
+      "id": "pref.cade80e13360b4f8",
+      "level": "must",
+      "match": {
+        "role": "xshutdn_open_drain_buffer"
+      },
+      "parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "mpn": "SN74LVC1G07DBVR",
+          "vendor_parts": {
+            "lcsc": "C7829"
+          }
+        }
+      ],
+      "source": "user_request",
+      "statement": "电路照搬 sc035hgs 项目（只读参考 ~/Downloads/sc035hgs，origin/main 6aea7f5）：U1/U2/U3 三路 LDO 及 DOVDD→DVDD→AVDD 上电时序 RC、Q3/Q4 SSM3K329R I2C 电平转换、U4 SN74LVC1G07 XSHUTDN 缓冲与 R10/C3 延时",
+      "tags": [
+        "level_shifter",
+        "logic_buffer"
+      ]
+    },
+    {
+      "category": "other",
+      "id": "pref.01c355760d5f3fc6",
+      "level": "must",
+      "match": {
+        "role": "mclk_level_buffer"
+      },
+      "parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "mpn": "SN74LVC1G34DBVR"
+        }
+      ],
+      "reason": "Answer to the MCLK question whose recommended option was an SN74LVC1G34 buffer powered from DOVDD.",
+      "source": "user_request",
+      "statement": "该用的话，只要日本能买到，或者jlc可以提前表面装这一小部分，两种一种能走通就可以换，如果更好的话。",
+      "tags": [
+        "clock_buffer",
+        "level_shifter"
+      ]
+    }
+  ],
+  "schema_version": "component_preferences.v1",
+  "scope": "project"
+}

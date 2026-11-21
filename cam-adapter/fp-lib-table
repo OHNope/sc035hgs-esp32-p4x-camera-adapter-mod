@@ -1,0 +1,4 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "SP4SCAdapter")(type "KiCad")(uri "${KIPRJMOD}/libraries/SP4SCAdapter.pretty")(options "")(descr ""))
+)

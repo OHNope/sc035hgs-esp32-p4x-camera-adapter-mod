@@ -1,0 +1,166 @@
+{
+  "format": "pcb-fabrication-profile",
+  "format_version": 1,
+  "schema_id": "urn:kicad-auto:pcb-fabrication-profile:v1",
+  "manufacturer": "JLCPCB",
+  "applicability": "Low-voltage (<=5 V) prototype; JLCPCB standard 4-layer capability. No impedance control ordered; diff-pair geometry from the JLC impedance calculator only.",
+  "order_form": {
+    "layer_count": 4,
+    "finished_thickness_mm": 1.6,
+    "surface_finish": "ENIG",
+    "impedance_control": {
+      "enabled": false
+    }
+  },
+  "stackup": {
+    "code": "JLC04161H-7628",
+    "source_url": "https://jlcpcb.com/impedance",
+    "nominal_thickness_mm": 1.6,
+    "layers": [
+      {
+        "name": "F.SilkS",
+        "kind": "silkscreen",
+        "material": "LPI white ink",
+        "role": "Top silkscreen"
+      },
+      {
+        "name": "F.Mask",
+        "kind": "soldermask",
+        "thickness_mm": 0.01,
+        "material": "LPI green",
+        "role": "Top soldermask"
+      },
+      {
+        "name": "F.Cu",
+        "kind": "copper",
+        "thickness_mm": 0.035,
+        "material": "Copper 1 oz finished",
+        "role": "Top signal and components"
+      },
+      {
+        "name": "dielectric 1",
+        "kind": "prepreg",
+        "thickness_mm": 0.2104,
+        "material": "7628 prepreg RC49%",
+        "epsilon_r": 4.4,
+        "loss_tangent": 0.02,
+        "role": "L1-L2 dielectric"
+      },
+      {
+        "name": "In1.Cu",
+        "kind": "copper",
+        "thickness_mm": 0.0152,
+        "material": "Copper 0.5 oz",
+        "role": "Ground plane (reference for L1)",
+        "plane_role": "ground_plane"
+      },
+      {
+        "name": "dielectric 2",
+        "kind": "core",
+        "thickness_mm": 1.065,
+        "material": "FR4 core",
+        "epsilon_r": 4.6,
+        "loss_tangent": 0.02,
+        "role": "L2-L3 core"
+      },
+      {
+        "name": "In2.Cu",
+        "kind": "copper",
+        "thickness_mm": 0.0152,
+        "material": "Copper 0.5 oz",
+        "role": "Power plane (reference for L4)",
+        "plane_role": "power_plane"
+      },
+      {
+        "name": "dielectric 3",
+        "kind": "prepreg",
+        "thickness_mm": 0.2104,
+        "material": "7628 prepreg RC49%",
+        "epsilon_r": 4.4,
+        "loss_tangent": 0.02,
+        "role": "L3-L4 dielectric"
+      },
+      {
+        "name": "B.Cu",
+        "kind": "copper",
+        "thickness_mm": 0.035,
+        "material": "Copper 1 oz finished",
+        "role": "Bottom signal"
+      },
+      {
+        "name": "B.Mask",
+        "kind": "soldermask",
+        "thickness_mm": 0.01,
+        "material": "LPI green",
+        "role": "Bottom soldermask"
+      },
+      {
+        "name": "B.SilkS",
+        "kind": "silkscreen",
+        "material": "LPI white ink",
+        "role": "Bottom silkscreen"
+      }
+    ]
+  },
+  "kicad_project_settings": {
+    "drc_manufacturing_floor": {
+      "min_track_width_mm": 0.127,
+      "min_clearance_mm": 0.127,
+      "min_copper_edge_clearance_mm": 0.3,
+      "min_via_diameter_mm": 0.25,
+      "min_via_annular_width_mm": 0.075,
+      "min_hole_clearance_mm": 0.2,
+      "min_hole_to_hole_mm": 0.25,
+      "min_through_hole_diameter_mm": 0.15,
+      "min_text_height_mm": 1.0,
+      "min_text_thickness_mm": 0.15
+    },
+    "notes": [
+      "2026-11-21: user approved 0.3/0.15 mm vias (\"那就继续\") so every J1 (A4S AXE616124D, 0.4 mm pitch) pad gets its own via, copied from the OV9782 adapter's fan-out; via floors (diameter 0.25, annular 0.075, hole clearance 0.2, hole-to-hole 0.25, through hole 0.15) follow that board's profile. Track and clearance floors stay at 0.127 mm.",
+      "0.15 mm via holes are a paid JLCPCB option (jlcpcb.com/capabilities/pcb-capabilities); confirm the via size and price on the order form.",
+      "2026-11-21: via tiers: standard 0.45/0.2 mm for every net, fine 0.3/0.15 mm for the J1 pad fan-out. JLCPCB prices the board by its smallest hole, so the fine tier sets the cost either way."
+    ],
+    "via_tiers": {
+      "standard": {
+        "diameter_mm": 0.45,
+        "drill_mm": 0.2
+      },
+      "fine": {
+        "diameter_mm": 0.3,
+        "drill_mm": 0.15
+      }
+    }
+  },
+  "project": {
+    "name": "stamp-p4-sc035hgs-adapter",
+    "board_file": "stamp-p4-sc035hgs-adapter.kicad_pcb",
+    "derived_from": "stamp-p4-demo-rec11 pcb-fabrication-profile.json (JLCPCB JLC04161H-7628 4-layer 1.6 mm ENIG); user chose the same process for both flight boards on 2026-11-20"
+  },
+  "electrical_requirements": {
+    "pairs": [
+      {
+        "name": "MIPI_CSI_100R",
+        "nets": [
+          "CSI_CLK_P/N",
+          "CSI_D0_P/N",
+          "CSI_D1_P/N"
+        ],
+        "layer": "F.Cu",
+        "reference_layer": "In1.Cu",
+        "target_impedance_ohm": 100.0,
+        "width_mm": 0.2213,
+        "gap_mm": 0.2032,
+        "source": "JLCPCB official impedance calculator, JLC04161H-7628 L1/L2, 2026-11-20"
+      },
+      {
+        "name": "MIPI_CSI_100R_neck",
+        "layer": "F.Cu",
+        "reference_layer": "In1.Cu",
+        "target_impedance_ohm": 100.0,
+        "width_mm": 0.1779,
+        "gap_mm": 0.15,
+        "source": "JLCPCB official impedance calculator, JLC04161H-7628 L1/L2, 2026-11-20; for the 0.4 mm pitch J1 escape"
+      }
+    ]
+  }
+}
