@@ -1,0 +1,11 @@
+{
+  "allow_rotation": false,
+  "decided_by": "user_specified",
+  "height_mm": 72.0,
+  "mode": "fixed",
+  "note": "C-109J 電装仕様書: 72 x 72 mm square; four 4 mm holes on a 64 mm square (4 mm from each edge)",
+  "recorded_at": "2026-11-20T13:20:09+00:00",
+  "schema_version": "pcb_board_outline_intent.v1",
+  "tolerance_mm": 0.1,
+  "width_mm": 72.0
+}

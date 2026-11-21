@@ -1,0 +1,30 @@
+{
+  "footprints": [
+    {
+      "lib_id": "Stamp-P4:Stamp-P4",
+      "source": {
+        "local_path": ".kicad-auto/sources/source.schematic.896d1560b734/SCH_Stamp-P4_2026_03_16_17_23_06.pdf",
+        "locator": "page 1, STAMP1 symbol (STAMP HOLE pin table, pads 1-65)",
+        "sha256": "sha256:896d1560b734f310e9f33578337aec0a9534f19aaccd22f1054930fabda15b63",
+        "source_id": "source.schematic.896d1560b734"
+      }
+    }
+  ],
+  "schema_version": "project_library_manifest.v1",
+  "symbols": [
+    {
+      "footprint_lib_id": "Stamp-P4:Stamp-P4",
+      "lib_id": "Stamp-P4:Stamp-P4",
+      "mpn": "S013",
+      "pin_count": 65,
+      "pin_table_sha256": "sha256:1c938055afe3c1268d7cb2fa5d2e0ce691a6c16ebeb4cd7b5bb6c1d806079148",
+      "source": {
+        "local_path": ".kicad-auto/sources/source.schematic.896d1560b734/SCH_Stamp-P4_2026_03_16_17_23_06.pdf",
+        "locator": "page 1, STAMP1 symbol (STAMP HOLE pin table, pads 1-65)",
+        "sha256": "sha256:896d1560b734f310e9f33578337aec0a9534f19aaccd22f1054930fabda15b63",
+        "source_id": "source.schematic.896d1560b734"
+      },
+      "user_lock_id": "lock.u1.symbol"
+    }
+  ]
+}

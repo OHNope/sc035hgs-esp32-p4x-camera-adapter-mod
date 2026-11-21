@@ -1,0 +1,156 @@
+{
+  "entries": [
+    {
+      "category": "module",
+      "id": "pref.ba0cfec2e4cd3669",
+      "level": "must",
+      "parts": [
+        {
+          "manufacturer": "M5Stack",
+          "mpn": "S013"
+        }
+      ],
+      "source": "user_request",
+      "statement": "Controller: M5Stack Stamp-P4 (S013, ESP32-P4NRW32, 16 MB flash / 32 MB PSRAM), SMD castellated module soldered to the board.",
+      "tags": [
+        "esp32_p4"
+      ]
+    },
+    {
+      "category": "connector",
+      "id": "pref.077f530b629eb53f",
+      "level": "must",
+      "match": {
+        "pin_count": 2.0
+      },
+      "parts": [
+        {
+          "manufacturer": "JST",
+          "mpn": "S2P-VH"
+        }
+      ],
+      "source": "user_request",
+      "statement": "Power input from the POWER board: JST S2P-VH side-entry (VH, 2 pins), 1 = +5V logic supply, 2 = GND.",
+      "tags": [
+        "board_to_board_power"
+      ]
+    },
+    {
+      "category": "connector",
+      "id": "pref.567ccbddc67db278",
+      "level": "must",
+      "match": {
+        "pin_count": 3.0
+      },
+      "parts": [
+        {
+          "manufacturer": "JST",
+          "mpn": "S3B-XH-A"
+        }
+      ],
+      "source": "user_request",
+      "statement": "CAN to/from the RT_VIDEO board only: JST S3B-XH-A side-entry (XH, 3 pins), 1 = CAN_H, 2 = CAN_L, 3 = GND.",
+      "tags": [
+        "board_to_board_signal"
+      ]
+    },
+    {
+      "category": "connector",
+      "id": "pref.524dfea0ea263395",
+      "level": "must",
+      "parts": [
+        {
+          "manufacturer": "Hirose",
+          "mpn": "DM3D-SF"
+        }
+      ],
+      "source": "user_request",
+      "statement": "microSD Hirose DM3D-SF (push-pull, no eject spring)",
+      "tags": [
+        "microsd"
+      ]
+    },
+    {
+      "category": "ldo",
+      "id": "pref.41676897aa130fcf",
+      "level": "must",
+      "match": {
+        "vout_v": 3.3
+      },
+      "parts": [
+        {
+          "manufacturer": "Richtek",
+          "mpn": "RT9080-33GJ5"
+        }
+      ],
+      "source": "user_request",
+      "statement": "A Richtek RT9080-33GJ5 LDO (SOT-23-5) makes +3V3_LDO from +5V"
+    },
+    {
+      "category": "other",
+      "id": "pref.54349f1b56ee67b6",
+      "level": "must",
+      "parts": [
+        {
+          "manufacturer": "Torex",
+          "mpn": "XC8107AC20MR-G"
+        }
+      ],
+      "source": "user_request",
+      "statement": "+3V3_LDO through high-side load switch Torex XC8107AC20MR-G",
+      "tags": [
+        "load_switch"
+      ]
+    },
+    {
+      "category": "other",
+      "id": "pref.80f4a58acb77938b",
+      "level": "must",
+      "parts": [
+        {
+          "manufacturer": "Microchip",
+          "mpn": "MCP2562-E-SN"
+        }
+      ],
+      "source": "user_request",
+      "statement": "MCP2562-E-SN with VDD +5V, VIO +3V3, STBY low",
+      "tags": [
+        "can_transceiver"
+      ]
+    },
+    {
+      "category": "esd",
+      "id": "pref.acb8e0c0452da434",
+      "level": "must",
+      "parts": [
+        {
+          "manufacturer": "Nexperia",
+          "mpn": "PESD2CAN24T-QR"
+        }
+      ],
+      "source": "user_request",
+      "statement": "Nexperia PESD2CAN24T-QR ESD",
+      "tags": [
+        "can"
+      ]
+    },
+    {
+      "category": "other",
+      "id": "pref.c2ed71142ad0cd3f",
+      "level": "must",
+      "parts": [
+        {
+          "footprint_lib_id": "MountingHole:MountingHole_4mm",
+          "symbol_lib_id": "Mechanical:MountingHole"
+        }
+      ],
+      "source": "user_request",
+      "statement": "按仕様書 64mm / Φ4",
+      "tags": [
+        "mounting_hole"
+      ]
+    }
+  ],
+  "schema_version": "component_preferences.v1",
+  "scope": "project"
+}

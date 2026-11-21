@@ -1,0 +1,119 @@
+{
+ "format": "pcb-fabrication-profile",
+ "format_version": 1,
+ "schema_id": "urn:kicad-auto:pcb-fabrication-profile:v1",
+ "manufacturer": "JLCPCB",
+ "applicability": "Low-voltage (<=5 V) prototype; JLCPCB standard 4-layer capability. No impedance control ordered; diff-pair geometry from the JLC impedance calculator only.",
+ "order_form": {
+  "layer_count": 4,
+  "finished_thickness_mm": 1.6,
+  "surface_finish": "ENIG",
+  "impedance_control": {
+   "enabled": false
+  }
+ },
+ "stackup": {
+  "code": "JLC04161H-7628",
+  "source_url": "https://jlcpcb.com/impedance",
+  "nominal_thickness_mm": 1.6,
+  "layers": [
+   {
+    "name": "F.SilkS",
+    "kind": "silkscreen",
+    "material": "LPI white ink",
+    "role": "Top silkscreen"
+   },
+   {
+    "name": "F.Mask",
+    "kind": "soldermask",
+    "thickness_mm": 0.01,
+    "material": "LPI green",
+    "role": "Top soldermask"
+   },
+   {
+    "name": "F.Cu",
+    "kind": "copper",
+    "thickness_mm": 0.035,
+    "material": "Copper 1 oz finished",
+    "role": "Top signal and components"
+   },
+   {
+    "name": "dielectric 1",
+    "kind": "prepreg",
+    "thickness_mm": 0.2104,
+    "material": "7628 prepreg RC49%",
+    "epsilon_r": 4.4,
+    "loss_tangent": 0.02,
+    "role": "L1-L2 dielectric"
+   },
+   {
+    "name": "In1.Cu",
+    "kind": "copper",
+    "thickness_mm": 0.0152,
+    "material": "Copper 0.5 oz",
+    "role": "Ground plane (reference for L1)",
+    "plane_role": "ground_plane"
+   },
+   {
+    "name": "dielectric 2",
+    "kind": "core",
+    "thickness_mm": 1.065,
+    "material": "FR4 core",
+    "epsilon_r": 4.6,
+    "loss_tangent": 0.02,
+    "role": "L2-L3 core"
+   },
+   {
+    "name": "In2.Cu",
+    "kind": "copper",
+    "thickness_mm": 0.0152,
+    "material": "Copper 0.5 oz",
+    "role": "Power plane (reference for L4)",
+    "plane_role": "power_plane"
+   },
+   {
+    "name": "dielectric 3",
+    "kind": "prepreg",
+    "thickness_mm": 0.2104,
+    "material": "7628 prepreg RC49%",
+    "epsilon_r": 4.4,
+    "loss_tangent": 0.02,
+    "role": "L3-L4 dielectric"
+   },
+   {
+    "name": "B.Cu",
+    "kind": "copper",
+    "thickness_mm": 0.035,
+    "material": "Copper 1 oz finished",
+    "role": "Bottom signal"
+   },
+   {
+    "name": "B.Mask",
+    "kind": "soldermask",
+    "thickness_mm": 0.01,
+    "material": "LPI green",
+    "role": "Bottom soldermask"
+   },
+   {
+    "name": "B.SilkS",
+    "kind": "silkscreen",
+    "material": "LPI white ink",
+    "role": "Bottom silkscreen"
+   }
+  ]
+ },
+ "kicad_project_settings": {
+  "drc_manufacturing_floor": {
+   "min_track_width_mm": 0.127,
+   "min_clearance_mm": 0.127,
+   "min_copper_edge_clearance_mm": 0.3,
+   "min_via_diameter_mm": 0.45,
+   "min_via_annular_width_mm": 0.1,
+   "min_hole_clearance_mm": 0.25,
+   "min_hole_to_hole_mm": 0.5,
+   "min_through_hole_diameter_mm": 0.2,
+   "min_text_height_mm": 1.0,
+   "min_text_thickness_mm": 0.15
+  }
+ }
+}
